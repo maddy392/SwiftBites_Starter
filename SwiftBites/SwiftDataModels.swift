@@ -76,7 +76,10 @@ final class Recipe {
     @Attribute(.unique)
     var name: String
     var summary: String
+    
+    @Relationship(inverse: \_Category.recipes)
     var category: _Category?
+    
     var serving: Int
     var time: Int
     var ingredients: [RecipeIngredient]
@@ -135,6 +138,8 @@ final class _Category {
     let id: UUID
     @Attribute(.unique)
     var name: String
+    
+    @Relationship(deleteRule: .nullify)
     var recipes: [Recipe]
     
     init(id: UUID = UUID(), name: String = "", recipes: [Recipe] = []) {
