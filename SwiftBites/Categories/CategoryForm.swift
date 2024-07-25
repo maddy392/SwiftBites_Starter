@@ -3,7 +3,7 @@ import SwiftUI
 struct CategoryForm: View {
   enum Mode: Hashable {
     case add
-    case edit(MockCategory)
+    case edit(_Category)
   }
 
   var mode: Mode
@@ -23,7 +23,7 @@ struct CategoryForm: View {
   private let title: String
   @State private var name: String
   @State private var error: Error?
-  @Environment(\.storage) private var storage
+    @Environment(\.modelContext) private var context
   @Environment(\.dismiss) private var dismiss
   @FocusState private var isNameFocused: Bool
 
@@ -67,22 +67,41 @@ struct CategoryForm: View {
 
   // MARK: - Data
 
-  private func delete(category: MockCategory) {
-    storage.deleteCategory(id: category.id)
-    dismiss()
+  private func delete(category: _Category) {
+      context.delete(category)
+      do {
+          try context.save()
+          dismiss()
+        } catch {
+          self.error = error
+      }
   }
 
   private func save() {
     do {
       switch mode {
       case .add:
-        try storage.addCategory(name: name)
+          let newCategory = _Category(name: name)
+          context.insert(newCategory)
       case .edit(let category):
-        try storage.updateCategory(id: category.id, name: name)
+          category.name = name
       }
+        try context.save()
       dismiss()
     } catch {
       self.error = error
     }
   }
+}
+
+#Preview("Add") {
+    NavigationStack {
+        CategoryForm(mode: .add)
+    }
+}
+
+#Preview("Edit") {
+    NavigationStack {
+        CategoryForm(mode: .edit(SampleData.shared.category))
+    }
 }

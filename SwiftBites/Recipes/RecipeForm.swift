@@ -1,11 +1,12 @@
 import SwiftUI
 import PhotosUI
 import Foundation
+import SwiftData
 
 struct RecipeForm: View {
   enum Mode: Hashable {
     case add
-    case edit(MockRecipe)
+    case edit(Recipe)
   }
 
   var mode: Mode
@@ -35,20 +36,21 @@ struct RecipeForm: View {
     }
   }
 
-  private let title: String
-  @State private var name: String
-  @State private var summary: String
-  @State private var serving: Int
-  @State private var time: Int
-  @State private var instructions: String
-  @State private var categoryId: MockCategory.ID?
-  @State private var ingredients: [MockRecipeIngredient]
-  @State private var imageItem: PhotosPickerItem?
-  @State private var imageData: Data?
-  @State private var isIngredientsPickerPresented =  false
-  @State private var error: Error?
-  @Environment(\.dismiss) private var dismiss
-  @Environment(\.storage) private var storage
+    private let title: String
+    @State private var name: String
+    @State private var summary: String
+    @State private var serving: Int
+    @State private var time: Int
+    @State private var instructions: String
+    @State private var categoryId: UUID?
+    @State private var ingredients: [RecipeIngredient]
+    @State private var imageItem: PhotosPickerItem?
+    @State private var imageData: Data?
+    @State private var isIngredientsPickerPresented =  false
+    @State private var error: Error?
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var context
+    @Query private var categories: [_Category]
 
   // MARK: - Body
 
@@ -87,7 +89,7 @@ struct RecipeForm: View {
 
   private func ingredientPicker() -> some View {
     IngredientsView { selectedIngredient in
-      let recipeIngredient = MockRecipeIngredient(ingredient: selectedIngredient, quantity: "")
+      let recipeIngredient = RecipeIngredient(ingredient: selectedIngredient, quantity: "")
       ingredients.append(recipeIngredient)
     }
   }
@@ -156,13 +158,18 @@ struct RecipeForm: View {
   private var categorySection: some View {
     Section {
       Picker("Category", selection: $categoryId) {
-        Text("None").tag(nil as MockCategory.ID?)
-        ForEach(storage.categories) { category in
-          Text(category.name).tag(category.id as MockCategory.ID?)
+        Text("None").tag(nil as UUID?)
+          ForEach(categories) { category in
+          Text(category.name).tag(category.id as UUID?)
         }
       }
     }
   }
+    
+//    private func fetchCategories() -> [Category] {
+//        let fetchRequest = FetchRequest<Category>()
+//        return (try? context.fetch(fetchRequest)) ?? []
+//    }
 
   @ViewBuilder
   private var servingAndTimeSection: some View {
@@ -253,11 +260,12 @@ struct RecipeForm: View {
 
   // MARK: - Data
 
-  func delete(recipe: MockRecipe) {
+  func delete(recipe: Recipe) {
     guard case .edit(let recipe) = mode else {
       fatalError("Delete unavailable in add mode")
     }
-    storage.deleteRecipe(id: recipe.id)
+    context.delete(recipe)
+      try? context.save()
     dismiss()
   }
 
@@ -267,38 +275,48 @@ struct RecipeForm: View {
     }
   }
 
-  func save() {
-    let category = storage.categories.first(where: { $0.id == categoryId })
-
-    do {
-      switch mode {
-      case .add:
-        try storage.addRecipe(
-          name: name,
-          summary: summary,
-          category: category,
-          serving: serving,
-          time: time,
-          ingredients: ingredients,
-          instructions: instructions,
-          imageData: imageData
-        )
-      case .edit(let recipe):
-        try storage.updateRecipe(
-          id: recipe.id,
-          name: name,
-          summary: summary,
-          category: category,
-          serving: serving,
-          time: time,
-          ingredients: ingredients,
-          instructions: instructions,
-          imageData: imageData
-        )
-      }
-      dismiss()
-    } catch {
-      self.error = error
+    func save() {
+        do {
+            let category = categories.first(where: { $0.id == categoryId })
+            switch mode {
+            case .add:
+                let newRecipe = Recipe(
+                    name: name,
+                    summary: summary,
+                    category: category,
+                    serving: serving,
+                    time: time,
+                    ingredients: ingredients,
+                    instructions: instructions,
+                    imageData: imageData
+                )
+                context.insert(newRecipe)
+            case .edit(let recipe):
+                recipe.name = name
+                recipe.summary = summary
+                recipe.category = category
+                recipe.serving = serving
+                recipe.time = time
+                recipe.instructions = instructions
+                recipe.imageData = imageData
+                recipe.ingredients = ingredients
+            }
+            try context.save()
+            dismiss()
+        } catch {
+            self.error = error
+        }
     }
-  }
+}
+
+#Preview("Add") {
+    NavigationStack {
+        RecipeForm(mode: .add)
+    }
+}
+
+#Preview("Edit") {
+    NavigationStack {
+        RecipeForm(mode: .edit(SampleData.shared.recipe))
+    }
 }

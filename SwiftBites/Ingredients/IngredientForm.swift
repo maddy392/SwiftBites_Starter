@@ -1,14 +1,21 @@
 import SwiftUI
 
 struct IngredientForm: View {
-  enum Mode: Hashable {
+    enum Mode: Hashable {
     case add
-    case edit(MockIngredient)
-  }
+    case edit(Ingredient)
+    }
 
-  var mode: Mode
+    var mode: Mode
+    @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
+    @State private var name: String
+    private let title: String
+    @State private var error: Error?
+    @FocusState private var isNameFocused: Bool
 
-  init(mode: Mode) {
+
+    init(mode: Mode) {
     self.mode = mode
     switch mode {
     case .add:
@@ -18,14 +25,10 @@ struct IngredientForm: View {
       _name = .init(initialValue: ingredient.name)
       title = "Edit \(ingredient.name)"
     }
-  }
+    }
 
-  private let title: String
-  @State private var name: String
-  @State private var error: Error?
-  @Environment(\.storage) private var storage
-  @Environment(\.dismiss) private var dismiss
-  @FocusState private var isNameFocused: Bool
+//    @Environment(\.storage) private var storage
+//    @Environment(\.dismiss) private var dismiss
 
   // MARK: - Body
 
@@ -66,30 +69,42 @@ struct IngredientForm: View {
 
   // MARK: - Data
 
-  private func delete(ingredient: MockIngredient) {
-    storage.deleteIngredient(id: ingredient.id)
-    dismiss()
+  private func delete(ingredient: Ingredient) {
+      context.delete(ingredient)
+      do {
+          try context.save()
+          dismiss()
+      } catch {
+          self.error = error
+      }
   }
 
   private func save() {
     do {
       switch mode {
       case .add:
-        try storage.addIngredient(name: name)
+          let newIngredient = Ingredient(name: name)
+          context.insert(newIngredient)
+//        try storage.addIngredient(name: name)
       case .edit(let ingredient):
-        try storage.updateIngredient(id: ingredient.id, name: name)
+          ingredient.name = name
       }
-      dismiss()
+        try context.save()
+        dismiss()
     } catch {
       self.error = error
     }
   }
 }
 
-//#Preview("Add") {
-//    IngredientForm(mode: .add)
-//}
-//
-//#Preview("Edit") {
-//    IngredientForm(mode: .edit(MockIngredient(name: "Pepper")))
-//}
+#Preview("Add") {
+    NavigationStack {
+        IngredientForm(mode: .add)
+    }
+}
+
+#Preview("Edit") {
+    NavigationStack {
+        IngredientForm(mode: .edit(SampleData.shared.ingredient))
+    }
+}

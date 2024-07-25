@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CategorySection: View {
-  let category: MockCategory
+  let category: _Category
 
   // MARK: - Body
 
@@ -59,4 +59,9 @@ struct CategorySection: View {
       }
     )
   }
+}
+
+
+#Preview {
+    CategorySection(category: SampleData.shared.category)
 }
