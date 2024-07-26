@@ -7,12 +7,23 @@ struct RecipesView: View {
     @State private var query = ""
     @State private var sortOrder: SortOrder = .name
     
-    enum SortOrder {
+    init(query: String = "") {
+        self._query = State(initialValue: query)
+        let predicate = #Predicate<Recipe> { recipe in
+            query.isEmpty || recipe.name.localizedStandardContains(query) || recipe.instructions.localizedStandardContains(query)
+        }
+                
+        self._recipes = Query(filter: predicate)
+    }
+    
+    enum SortOrder: String, CaseIterable, Identifiable {
         case name
         case servingLowToHigh
         case servingHighToLow
         case timeShortToLong
         case timeLongToShort
+        
+        var id: String {rawValue}
         
         var sortDescriptors: [SortDescriptor<Recipe>] {
             switch self {
@@ -85,13 +96,7 @@ struct RecipesView: View {
     if recipes.isEmpty {
       empty
     } else {
-      list(for: recipes.filter {
-        if query.isEmpty {
-          return true
-        } else {
-          return $0.name.localizedStandardContains(query) || $0.summary.localizedStandardContains(query)
-        }
-      }.sorted(using: sortOrder.sortDescriptors))
+      list(for: recipes)
     }
   }
 
@@ -129,11 +134,21 @@ struct RecipesView: View {
         }
       }
     }
-    .searchable(text: $query)
+//    .searchable(text: $query)
   }
 }
 
 #Preview {
     RecipesView()
+        .modelContainer(SampleData.shared.modelContainer)
+}
+
+#Preview("Empty") {
+    RecipesView()
+        .modelContainer(for: Recipe.self, inMemory: true)
+}
+
+#Preview("filtered") {
+    RecipesView(query: "marg")
         .modelContainer(SampleData.shared.modelContainer)
 }

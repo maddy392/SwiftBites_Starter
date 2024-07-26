@@ -91,8 +91,8 @@ struct RecipeForm: View {
     IngredientsView { selectedIngredient in
         print(selectedIngredient.name)
         let recipeIngredient = RecipeIngredient(ingredient: selectedIngredient, quantity: "")
-        ingredients.append(recipeIngredient)
         context.insert(recipeIngredient)
+        ingredients.append(recipeIngredient)
     }
   }
 
@@ -288,10 +288,13 @@ struct RecipeForm: View {
                     category: category,
                     serving: serving,
                     time: time,
-                    ingredients: ingredients,
+//                    ingredients: ingredients,
                     instructions: instructions,
                     imageData: imageData
                 )
+                for ingredient in ingredients {
+                    ingredient.recipe = newRecipe
+                }
                 context.insert(newRecipe)
             case .edit(let recipe):
                 recipe.name = name

@@ -63,6 +63,9 @@ final class RecipeIngredient {
     var ingredient: Ingredient
     var quantity: String
     
+    @Relationship(inverse: \Recipe.ingredients)
+    var recipe: Recipe?
+    
     init(id: UUID = UUID(), ingredient: Ingredient, quantity: String = "") {
         self.id = id
         self.ingredient = ingredient
@@ -77,12 +80,15 @@ final class Recipe {
     var name: String
     var summary: String
     
-    @Relationship(inverse: \_Category.recipes)
+    @Relationship(deleteRule: .nullify, inverse: \_Category.recipes)
     var category: _Category?
     
     var serving: Int
     var time: Int
+    
+    @Relationship(deleteRule: .cascade)
     var ingredients: [RecipeIngredient]
+    
     var instructions: String
     var imageData: Data?
     
