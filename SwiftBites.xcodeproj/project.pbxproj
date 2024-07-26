@@ -26,6 +26,7 @@
 		8AF2F8192C52042200EFE13C /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F8182C52042200EFE13C /* SampleData.swift */; };
 		8AF2F81B2C53094600EFE13C /* FilteredIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F81A2C53094600EFE13C /* FilteredIngredientsView.swift */; };
 		8AF2F81D2C53DD4800EFE13C /* FilteredRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F81C2C53DD4800EFE13C /* FilteredRecipesView.swift */; };
+		8AF2F81F2C54122E00EFE13C /* SortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F81E2C54122E00EFE13C /* SortOrder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +50,7 @@
 		8AF2F8182C52042200EFE13C /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		8AF2F81A2C53094600EFE13C /* FilteredIngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredIngredientsView.swift; sourceTree = "<group>"; };
 		8AF2F81C2C53DD4800EFE13C /* FilteredRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredRecipesView.swift; sourceTree = "<group>"; };
+		8AF2F81E2C54122E00EFE13C /* SortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOrder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 				0719D4312B0590B500B1A4E3 /* RecipeForm.swift */,
 				0719D4322B0590B500B1A4E3 /* RecipesView.swift */,
 				8AF2F81C2C53DD4800EFE13C /* FilteredRecipesView.swift */,
+				8AF2F81E2C54122E00EFE13C /* SortOrder.swift */,
 			);
 			path = Recipes;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				07A2073E2AFAF5100048B7EA /* Main.swift in Sources */,
 				07CF2F372B0A39FE003B83AD /* RecipeCell.swift in Sources */,
 				07A207402AFAF5100048B7EA /* Models.swift in Sources */,
+				8AF2F81F2C54122E00EFE13C /* SortOrder.swift in Sources */,
 				0719D4342B0590B500B1A4E3 /* RecipesView.swift in Sources */,
 				07CF2F332B0A1D4C003B83AD /* Utils.swift in Sources */,
 				07F6DE3F2B04321F004AD929 /* IngredientForm.swift in Sources */,

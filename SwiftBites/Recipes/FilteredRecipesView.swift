@@ -10,7 +10,7 @@ import SwiftUI
 struct FilteredRecipesView: View {
     
     @State private var query = ""
-    @State private var sortOrder : RecipesView.SortOrder = .name
+    @State private var sortOrder : SortOrder = .name
     
     var body: some View {
         RecipesView(query: query, sortOrder: $sortOrder)
