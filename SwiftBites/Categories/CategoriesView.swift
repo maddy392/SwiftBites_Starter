@@ -3,7 +3,16 @@ import SwiftData
 
 struct CategoriesView: View {
     @Query private var categories: [_Category]
-  @State private var query = ""
+    @State private var query: String
+    
+    init(query: String = "") {
+        self._query = State(initialValue: query)
+        let predicate = #Predicate<_Category> { category in
+            query.isEmpty || category.name.localizedStandardContains(query)
+        }
+        
+        self._categories = Query(filter: predicate, sort: \_Category.name, animation: .bouncy)
+    }
 
   // MARK: - Body
 
@@ -29,18 +38,27 @@ struct CategoriesView: View {
 
   // MARK: - Views
 
+//  @ViewBuilder
+//  private var content: some View {
+//    if categories.isEmpty {
+//      empty
+//    } else {
+//      list(for: categories.filter {
+//        if query.isEmpty {
+//          return true
+//        } else {
+//          return $0.name.localizedStandardContains(query)
+//        }
+//      })
+//    }
+//  }
+    
   @ViewBuilder
   private var content: some View {
     if categories.isEmpty {
       empty
     } else {
-      list(for: categories.filter {
-        if query.isEmpty {
-          return true
-        } else {
-          return $0.name.localizedStandardContains(query)
-        }
-      })
+      list(for: categories)
     }
   }
 
@@ -78,12 +96,22 @@ struct CategoriesView: View {
         }
       }
     }
-    .searchable(text: $query)
+//    .searchable(text: $query)
   }
 }
 
 
 #Preview {
     CategoriesView()
+        .modelContainer(SampleData.shared.modelContainer)
+}
+
+#Preview("Empty") {
+    CategoriesView()
+        .modelContainer(for: _Category.self, inMemory: true)
+}
+
+#Preview("filtered") {
+    CategoriesView(query: "it")
         .modelContainer(SampleData.shared.modelContainer)
 }

@@ -27,6 +27,7 @@
 		8AF2F81B2C53094600EFE13C /* FilteredIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F81A2C53094600EFE13C /* FilteredIngredientsView.swift */; };
 		8AF2F81D2C53DD4800EFE13C /* FilteredRecipesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F81C2C53DD4800EFE13C /* FilteredRecipesView.swift */; };
 		8AF2F81F2C54122E00EFE13C /* SortOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F81E2C54122E00EFE13C /* SortOrder.swift */; };
+		8AF2F8212C54194A00EFE13C /* FilteredCategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F8202C54194A00EFE13C /* FilteredCategoriesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		8AF2F81A2C53094600EFE13C /* FilteredIngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredIngredientsView.swift; sourceTree = "<group>"; };
 		8AF2F81C2C53DD4800EFE13C /* FilteredRecipesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredRecipesView.swift; sourceTree = "<group>"; };
 		8AF2F81E2C54122E00EFE13C /* SortOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOrder.swift; sourceTree = "<group>"; };
+		8AF2F8202C54194A00EFE13C /* FilteredCategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredCategoriesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				07C52B7F2B0A90F000DCBB13 /* CategorySection.swift */,
 				0719D4282B058E2D00B1A4E3 /* CategoryForm.swift */,
 				0719D4272B058E2D00B1A4E3 /* CategoriesView.swift */,
+				8AF2F8202C54194A00EFE13C /* FilteredCategoriesView.swift */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				8AF2F8192C52042200EFE13C /* SampleData.swift in Sources */,
 				8AF2F81B2C53094600EFE13C /* FilteredIngredientsView.swift in Sources */,
 				8AF2F8172C51FCB200EFE13C /* SwiftDataModels.swift in Sources */,
+				8AF2F8212C54194A00EFE13C /* FilteredCategoriesView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

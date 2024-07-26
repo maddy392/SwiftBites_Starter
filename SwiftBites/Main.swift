@@ -12,7 +12,7 @@ struct ContentView: View {
           Label("Recipes", systemImage: "frying.pan")
         }
 
-      CategoriesView()
+      FilteredCategoriesView()
         .tabItem {
           Label("Categories", systemImage: "tag")
         }
