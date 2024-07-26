@@ -17,7 +17,7 @@ struct ContentView: View {
           Label("Categories", systemImage: "tag")
         }
 
-      IngredientsView()
+        FilteredIngredientsView()
         .tabItem {
           Label("Ingredients", systemImage: "carrot")
         }

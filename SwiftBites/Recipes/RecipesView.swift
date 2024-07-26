@@ -2,9 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct RecipesView: View {
-  @Environment(\.modelContext) private var context
+    @Environment(\.modelContext) private var context
     @Query private var recipes: [Recipe]
-  @State private var query = ""
+    @State private var query = ""
     @State private var sortOrder: SortOrder = .name
     
     enum SortOrder {
@@ -13,7 +13,7 @@ struct RecipesView: View {
         case servingHighToLow
         case timeShortToLong
         case timeLongToShort
-
+        
         var sortDescriptors: [SortDescriptor<Recipe>] {
             switch self {
             case .name:
@@ -28,7 +28,7 @@ struct RecipesView: View {
                 return [SortDescriptor(\Recipe.time, order: .reverse)]
             }
         }
-        }
+    }
 
   // MARK: - Body
 

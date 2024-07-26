@@ -5,15 +5,21 @@ struct IngredientsView: View {
     typealias Selection = (Ingredient) -> Void
 
     let selection: Selection?
-
-    init(selection: Selection? = nil) {
-    self.selection = selection
-    }
-
+    @State private var titleFilter : String
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
-    @State private var query = ""
-    @Query(sort: \Ingredient.name, order: .forward) private var ingredients: [Ingredient]
+    @Query private var ingredients: [Ingredient]
+    
+    init(selection: Selection? = nil, titleFilter: String = "") {
+        self.selection = selection
+        self._titleFilter = State(initialValue: titleFilter)
+        
+        let predicate = #Predicate<Ingredient> {
+            ingredient in titleFilter.isEmpty || ingredient.name.localizedStandardContains(titleFilter)
+        }
+        
+        self._ingredients = Query(filter: predicate, sort: \Ingredient.name)
+    }
 
   // MARK: - Body
 
@@ -41,13 +47,7 @@ struct IngredientsView: View {
     if ingredients.isEmpty {
       empty
     } else {
-      list(for: ingredients.filter {
-        if query.isEmpty {
-          return true
-        } else {
-          return $0.name.localizedStandardContains(query)
-        }
-      })
+      list(for: ingredients)
     }
   }
 
@@ -70,7 +70,7 @@ struct IngredientsView: View {
   private var noResults: some View {
     ContentUnavailableView(
       label: {
-        Text("Couldn't find \"\(query)\"")
+        Text("Couldn't find \"\(titleFilter)\"")
       }
     )
     .listRowSeparator(.hidden)
@@ -91,7 +91,7 @@ struct IngredientsView: View {
         }
       }
     }
-    .searchable(text: $query)
+//    .searchable(text: $titleFilter)
     .listStyle(.plain)
   }
 
@@ -133,6 +133,11 @@ struct IngredientsView: View {
 }
 
 #Preview("Empty") {
-    ContentView()
+    IngredientsView()
         .modelContainer(for: Ingredient.self, inMemory: true)
+}
+
+#Preview("filtered") {
+    IngredientsView(titleFilter: "ba")
+        .modelContainer(SampleData.shared.modelContainer)
 }

@@ -24,6 +24,7 @@
 		07F6DE3F2B04321F004AD929 /* IngredientForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F6DE3E2B04321F004AD929 /* IngredientForm.swift */; };
 		8AF2F8172C51FCB200EFE13C /* SwiftDataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F8162C51FCB200EFE13C /* SwiftDataModels.swift */; };
 		8AF2F8192C52042200EFE13C /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F8182C52042200EFE13C /* SampleData.swift */; };
+		8AF2F81B2C53094600EFE13C /* FilteredIngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AF2F81A2C53094600EFE13C /* FilteredIngredientsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		07F6DE3E2B04321F004AD929 /* IngredientForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientForm.swift; sourceTree = "<group>"; };
 		8AF2F8162C51FCB200EFE13C /* SwiftDataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataModels.swift; sourceTree = "<group>"; };
 		8AF2F8182C52042200EFE13C /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		8AF2F81A2C53094600EFE13C /* FilteredIngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteredIngredientsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			children = (
 				07F6DE3E2B04321F004AD929 /* IngredientForm.swift */,
 				078C79692B015772009744FD /* IngredientsView.swift */,
+				8AF2F81A2C53094600EFE13C /* FilteredIngredientsView.swift */,
 			);
 			path = Ingredients;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 				07A2073C2AFAF5100048B7EA /* App.swift in Sources */,
 				078C796A2B015772009744FD /* IngredientsView.swift in Sources */,
 				8AF2F8192C52042200EFE13C /* SampleData.swift in Sources */,
+				8AF2F81B2C53094600EFE13C /* FilteredIngredientsView.swift in Sources */,
 				8AF2F8172C51FCB200EFE13C /* SwiftDataModels.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

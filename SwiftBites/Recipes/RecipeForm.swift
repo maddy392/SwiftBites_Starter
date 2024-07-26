@@ -89,8 +89,10 @@ struct RecipeForm: View {
 
   private func ingredientPicker() -> some View {
     IngredientsView { selectedIngredient in
-      let recipeIngredient = RecipeIngredient(ingredient: selectedIngredient, quantity: "")
-      ingredients.append(recipeIngredient)
+        print(selectedIngredient.name)
+        let recipeIngredient = RecipeIngredient(ingredient: selectedIngredient, quantity: "")
+        ingredients.append(recipeIngredient)
+        context.insert(recipeIngredient)
     }
   }
 
@@ -200,7 +202,7 @@ struct RecipeForm: View {
       } else {
         ForEach(ingredients) { ingredient in
           HStack(alignment: .center) {
-            Text(ingredient.ingredient.name)
+              Text(ingredient.ingredient.name)
               .bold()
               .layoutPriority(2)
             Spacer()
