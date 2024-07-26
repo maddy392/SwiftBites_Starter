@@ -7,7 +7,7 @@ struct ContentView: View {
 
   var body: some View {
     TabView {
-      RecipesView()
+      FilteredRecipesView()
         .tabItem {
           Label("Recipes", systemImage: "frying.pan")
         }

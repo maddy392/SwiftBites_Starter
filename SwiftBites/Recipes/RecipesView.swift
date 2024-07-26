@@ -4,16 +4,17 @@ import SwiftData
 struct RecipesView: View {
     @Environment(\.modelContext) private var context
     @Query private var recipes: [Recipe]
-    @State private var query = ""
-    @State private var sortOrder: SortOrder = .name
+    @State private var query: String
+    @Binding private var sortOrder: SortOrder
     
-    init(query: String = "") {
+    init(query: String = "", sortOrder: Binding<SortOrder> = .constant(.name)) {
         self._query = State(initialValue: query)
+        self._sortOrder = sortOrder
         let predicate = #Predicate<Recipe> { recipe in
             query.isEmpty || recipe.name.localizedStandardContains(query) || recipe.instructions.localizedStandardContains(query)
         }
                 
-        self._recipes = Query(filter: predicate)
+        self._recipes = Query(filter: predicate, sort: sortOrder.wrappedValue.sortDescriptors)
     }
     
     enum SortOrder: String, CaseIterable, Identifiable {

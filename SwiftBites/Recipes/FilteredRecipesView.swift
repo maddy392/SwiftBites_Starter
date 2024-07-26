@@ -10,9 +10,10 @@ import SwiftUI
 struct FilteredRecipesView: View {
     
     @State private var query = ""
+    @State private var sortOrder : RecipesView.SortOrder = .name
     
     var body: some View {
-        RecipesView(query: query)
+        RecipesView(query: query, sortOrder: $sortOrder)
             .searchable(text: $query)
     }
 }
