@@ -167,11 +167,6 @@ struct RecipeForm: View {
       }
     }
   }
-    
-//    private func fetchCategories() -> [Category] {
-//        let fetchRequest = FetchRequest<Category>()
-//        return (try? context.fetch(fetchRequest)) ?? []
-//    }
 
   @ViewBuilder
   private var servingAndTimeSection: some View {
@@ -262,7 +257,7 @@ struct RecipeForm: View {
 
   // MARK: - Data
 
-  func delete(recipe: Recipe) {
+  private func delete(recipe: Recipe) {
     guard case .edit(let recipe) = mode else {
       fatalError("Delete unavailable in add mode")
     }
@@ -270,14 +265,13 @@ struct RecipeForm: View {
       try? context.save()
     dismiss()
   }
-
-  func deleteIngredients(offsets: IndexSet) {
+    private func deleteIngredients(offsets: IndexSet) {
     withAnimation {
       ingredients.remove(atOffsets: offsets)
     }
   }
 
-    func save() {
+    private func save() {
         do {
             let category = categories.first(where: { $0.id == categoryId })
             switch mode {
